@@ -1,13 +1,17 @@
-import 'dotenv/config'
-import express from 'express'
+import 'dotenv/config';
+import { AppDataSource } from './data-source.js';
+import { env } from './lib/env.js';
+import app from './app.js';
 
-const app = express()
-const port = process.env.PORT
+async function bootstrap(): Promise<void> {
+  await AppDataSource.initialize();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+  app.listen(Number(env.PORT), () => {
+    console.log(`Server running on port ${env.PORT} [${env.NODE_ENV}]`);
+  });
+}
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+bootstrap().catch((error: unknown) => {
+  console.error('Failed to start server:', error);
+  process.exit(1);
+});
