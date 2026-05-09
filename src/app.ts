@@ -5,7 +5,9 @@ import helmet from 'helmet';
 import { AppError } from './middleware/errors.js';
 import { logger } from './lib/logger.js';
 import { env } from './lib/env.js';
+import { authenticate } from './middleware/authenticate.js';
 import authRouter from './routers/auth.js';
+import clientesRouter from './routers/clientes.js';
 
 const app = express();
 
@@ -19,6 +21,7 @@ app.get('/health', (_req: Request, res: Response) => {
 });
 
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/clientes', authenticate, clientesRouter);
 
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
   if (error instanceof AppError) {
