@@ -7,8 +7,8 @@ import { logger } from './lib/logger.js';
 import { env } from './lib/env.js';
 import { authenticate } from './middleware/authenticate.js';
 import authRouter from './routers/auth.js';
-import clientesRouter from './routers/clientes.js';
-import pedidosRouter from './routers/pedidos.js';
+import clientsRouter from './routers/clients.js';
+import ordersRouter from './routers/orders.js';
 
 const app = express();
 
@@ -22,8 +22,8 @@ app.get('/health', (_req: Request, res: Response) => {
 });
 
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/clientes', authenticate, clientesRouter);
-app.use('/api/v1/pedidos', authenticate, pedidosRouter);
+app.use('/api/v1/clients', authenticate, clientsRouter);
+app.use('/api/v1/orders', authenticate, ordersRouter);
 
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
   if (error instanceof AppError) {

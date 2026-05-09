@@ -15,7 +15,7 @@ async function seedClient(override: Partial<{ name: string; phone: string; email
   return repo.save(repo.create({ name: 'Maria Silva', phone: '11999999999', ...override }));
 }
 
-describe('/api/v1/clientes', () => {
+describe('/api/v1/clients', () => {
   let token: string;
 
   beforeAll(async () => {
@@ -31,12 +31,12 @@ describe('/api/v1/clientes', () => {
     token = generateToken();
   });
 
-  // ─── POST /api/v1/clientes ─────────────────────────────────────────
+  // ─── POST /api/v1/clients ─────────────────────────────────────────
   describe('POST /', () => {
     it('returns 201 with created client', async () => {
       // Act
       const response = await request(app)
-        .post('/api/v1/clientes')
+        .post('/api/v1/clients')
         .set('Authorization', `Bearer ${token}`)
         .send({ name: 'Ana Oliveira', phone: '11988887777' })
         .expect(201);
@@ -60,7 +60,7 @@ describe('/api/v1/clientes', () => {
 
     it('returns 400 when name is missing', async () => {
       const response = await request(app)
-        .post('/api/v1/clientes')
+        .post('/api/v1/clients')
         .set('Authorization', `Bearer ${token}`)
         .send({ phone: '11999999999' })
         .expect(400);
@@ -70,17 +70,17 @@ describe('/api/v1/clientes', () => {
 
     it('returns 401 without authorization', async () => {
       await request(app)
-        .post('/api/v1/clientes')
+        .post('/api/v1/clients')
         .send({ name: 'Ana' })
         .expect(401);
     });
   });
 
-  // ─── GET /api/v1/clientes ──────────────────────────────────────────
+  // ─── GET /api/v1/clients ──────────────────────────────────────────
   describe('GET /', () => {
     it('returns 200 with empty list when no clients exist', async () => {
       const response = await request(app)
-        .get('/api/v1/clientes')
+        .get('/api/v1/clients')
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
@@ -97,7 +97,7 @@ describe('/api/v1/clientes', () => {
 
       // Act
       const response = await request(app)
-        .get('/api/v1/clientes')
+        .get('/api/v1/clients')
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
@@ -114,7 +114,7 @@ describe('/api/v1/clientes', () => {
 
       // Act
       const response = await request(app)
-        .get('/api/v1/clientes?limit=2')
+        .get('/api/v1/clients?limit=2')
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
@@ -125,7 +125,7 @@ describe('/api/v1/clientes', () => {
     });
   });
 
-  // ─── GET /api/v1/clientes/:id ──────────────────────────────────────
+  // ─── GET /api/v1/clients/:id ──────────────────────────────────────
   describe('GET /:id', () => {
     it('returns 200 with client when id exists', async () => {
       // Arrange
@@ -133,7 +133,7 @@ describe('/api/v1/clientes', () => {
 
       // Act
       const response = await request(app)
-        .get(`/api/v1/clientes/${client.id}`)
+        .get(`/api/v1/clients/${client.id}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
@@ -145,7 +145,7 @@ describe('/api/v1/clientes', () => {
 
     it('returns 404 when client does not exist', async () => {
       const response = await request(app)
-        .get('/api/v1/clientes/00000000-0000-0000-0000-000000000000')
+        .get('/api/v1/clients/00000000-0000-0000-0000-000000000000')
         .set('Authorization', `Bearer ${token}`)
         .expect(404);
 
@@ -153,7 +153,7 @@ describe('/api/v1/clientes', () => {
     });
   });
 
-  // ─── PATCH /api/v1/clientes/:id ───────────────────────────────────
+  // ─── PATCH /api/v1/clients/:id ───────────────────────────────────
   describe('PATCH /:id', () => {
     it('returns 200 with updated client', async () => {
       // Arrange
@@ -161,7 +161,7 @@ describe('/api/v1/clientes', () => {
 
       // Act
       const response = await request(app)
-        .patch(`/api/v1/clientes/${client.id}`)
+        .patch(`/api/v1/clients/${client.id}`)
         .set('Authorization', `Bearer ${token}`)
         .send({ name: 'Maria Oliveira' })
         .expect(200);
@@ -180,7 +180,7 @@ describe('/api/v1/clientes', () => {
 
     it('returns 404 when client does not exist', async () => {
       const response = await request(app)
-        .patch('/api/v1/clientes/00000000-0000-0000-0000-000000000000')
+        .patch('/api/v1/clients/00000000-0000-0000-0000-000000000000')
         .set('Authorization', `Bearer ${token}`)
         .send({ name: 'New Name' })
         .expect(404);
@@ -189,7 +189,7 @@ describe('/api/v1/clientes', () => {
     });
   });
 
-  // ─── DELETE /api/v1/clientes/:id ──────────────────────────────────
+  // ─── DELETE /api/v1/clients/:id ──────────────────────────────────
   describe('DELETE /:id', () => {
     it('returns 204 and removes client from database', async () => {
       // Arrange
@@ -197,7 +197,7 @@ describe('/api/v1/clientes', () => {
 
       // Act
       await request(app)
-        .delete(`/api/v1/clientes/${client.id}`)
+        .delete(`/api/v1/clients/${client.id}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(204);
 
@@ -210,7 +210,7 @@ describe('/api/v1/clientes', () => {
 
     it('returns 404 when client does not exist', async () => {
       const response = await request(app)
-        .delete('/api/v1/clientes/00000000-0000-0000-0000-000000000000')
+        .delete('/api/v1/clients/00000000-0000-0000-0000-000000000000')
         .set('Authorization', `Bearer ${token}`)
         .expect(404);
 

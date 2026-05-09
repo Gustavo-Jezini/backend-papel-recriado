@@ -6,7 +6,7 @@ import {
   UpdateClientBodySchema,
   ListClientsQuerySchema,
   IdParamsSchema,
-} from '../models/clientes.js';
+} from '../models/clients.js';
 import { ClientController } from '../controllers/ClientController.js';
 
 const router = Router();

@@ -7,7 +7,7 @@ import {
   UpdateOrderStatusBodySchema,
   ListOrdersQuerySchema,
   OrderIdParamsSchema,
-} from '../models/pedidos.js';
+} from '../models/orders.js';
 import { OrderController } from '../controllers/OrderController.js';
 
 const router = Router();

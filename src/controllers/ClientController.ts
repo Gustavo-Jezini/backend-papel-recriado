@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 import { ClientService } from '../services/ClientService.js';
 import { ClientRepository } from '../repositories/ClientRepository.js';
-import type { CreateClientBody, UpdateClientBody, ListClientsQuery, IdParams } from '../models/clientes.js';
+import type { CreateClientBody, UpdateClientBody, ListClientsQuery, IdParams } from '../models/clients.js';
 
 const clientService = new ClientService(ClientRepository);
 

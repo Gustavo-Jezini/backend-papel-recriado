@@ -105,12 +105,12 @@ describe('Authentication middleware', () => {
   });
 
   it('returns 401 without Authorization header on protected route', async () => {
-    await request(app).get('/api/v1/clientes').expect(401);
+    await request(app).get('/api/v1/clients').expect(401);
   });
 
   it('returns 401 with invalid token on protected route', async () => {
     await request(app)
-      .get('/api/v1/clientes')
+      .get('/api/v1/clients')
       .set('Authorization', 'Bearer token-invalido')
       .expect(401);
   });
@@ -118,7 +118,7 @@ describe('Authentication middleware', () => {
   it('returns 200 with valid token on protected route', async () => {
     const token = generateToken();
     await request(app)
-      .get('/api/v1/clientes')
+      .get('/api/v1/clients')
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
   });

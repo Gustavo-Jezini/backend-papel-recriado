@@ -29,7 +29,7 @@ async function seedOrder(clientId: string, override: Partial<{ status: OrderStat
   );
 }
 
-describe('/api/v1/pedidos', () => {
+describe('/api/v1/orders', () => {
   let token: string;
 
   beforeAll(async () => {
@@ -45,7 +45,7 @@ describe('/api/v1/pedidos', () => {
     token = generateToken();
   });
 
-  // ─── POST /api/v1/pedidos ──────────────────────────────────────────
+  // ─── POST /api/v1/orders ──────────────────────────────────────────
   describe('POST /', () => {
     it('returns 201 with created order when clientId is valid', async () => {
       // Arrange
@@ -53,7 +53,7 @@ describe('/api/v1/pedidos', () => {
 
       // Act
       const response = await request(app)
-        .post('/api/v1/pedidos')
+        .post('/api/v1/orders')
         .set('Authorization', `Bearer ${token}`)
         .send({
           clientId: client.id,
@@ -82,7 +82,7 @@ describe('/api/v1/pedidos', () => {
 
     it('returns 404 when clientId does not exist', async () => {
       const response = await request(app)
-        .post('/api/v1/pedidos')
+        .post('/api/v1/orders')
         .set('Authorization', `Bearer ${token}`)
         .send({
           clientId: '00000000-0000-0000-0000-000000000000',
@@ -96,7 +96,7 @@ describe('/api/v1/pedidos', () => {
 
     it('returns 400 when body is invalid', async () => {
       const response = await request(app)
-        .post('/api/v1/pedidos')
+        .post('/api/v1/orders')
         .set('Authorization', `Bearer ${token}`)
         .send({ title: 'Sem clientId e sem description' })
         .expect(400);
@@ -106,17 +106,17 @@ describe('/api/v1/pedidos', () => {
 
     it('returns 401 without authorization', async () => {
       await request(app)
-        .post('/api/v1/pedidos')
+        .post('/api/v1/orders')
         .send({ clientId: '00000000-0000-0000-0000-000000000000', title: 'X', description: 'Y' })
         .expect(401);
     });
   });
 
-  // ─── GET /api/v1/pedidos ───────────────────────────────────────────
+  // ─── GET /api/v1/orders ───────────────────────────────────────────
   describe('GET /', () => {
     it('returns 200 with empty list when no orders exist', async () => {
       const response = await request(app)
-        .get('/api/v1/pedidos')
+        .get('/api/v1/orders')
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
@@ -134,7 +134,7 @@ describe('/api/v1/pedidos', () => {
 
       // Act
       const response = await request(app)
-        .get('/api/v1/pedidos')
+        .get('/api/v1/orders')
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
@@ -151,7 +151,7 @@ describe('/api/v1/pedidos', () => {
 
       // Act
       const response = await request(app)
-        .get('/api/v1/pedidos?limit=2')
+        .get('/api/v1/orders?limit=2')
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
@@ -162,7 +162,7 @@ describe('/api/v1/pedidos', () => {
     });
   });
 
-  // ─── GET /api/v1/pedidos/:id ───────────────────────────────────────
+  // ─── GET /api/v1/orders/:id ───────────────────────────────────────
   describe('GET /:id', () => {
     it('returns 200 with order when id exists', async () => {
       // Arrange
@@ -171,7 +171,7 @@ describe('/api/v1/pedidos', () => {
 
       // Act
       const response = await request(app)
-        .get(`/api/v1/pedidos/${order.id}`)
+        .get(`/api/v1/orders/${order.id}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
@@ -183,7 +183,7 @@ describe('/api/v1/pedidos', () => {
 
     it('returns 404 when order does not exist', async () => {
       const response = await request(app)
-        .get('/api/v1/pedidos/00000000-0000-0000-0000-000000000000')
+        .get('/api/v1/orders/00000000-0000-0000-0000-000000000000')
         .set('Authorization', `Bearer ${token}`)
         .expect(404);
 
@@ -191,7 +191,7 @@ describe('/api/v1/pedidos', () => {
     });
   });
 
-  // ─── PATCH /api/v1/pedidos/:id/status ─────────────────────────────
+  // ─── PATCH /api/v1/orders/:id/status ─────────────────────────────
   describe('PATCH /:id/status', () => {
     it('returns 200 for valid transition pending → in_production', async () => {
       // Arrange
@@ -200,7 +200,7 @@ describe('/api/v1/pedidos', () => {
 
       // Act
       const response = await request(app)
-        .patch(`/api/v1/pedidos/${order.id}/status`)
+        .patch(`/api/v1/orders/${order.id}/status`)
         .set('Authorization', `Bearer ${token}`)
         .send({ status: 'in_production' })
         .expect(200);
@@ -222,7 +222,7 @@ describe('/api/v1/pedidos', () => {
 
       // Act
       const response = await request(app)
-        .patch(`/api/v1/pedidos/${order.id}/status`)
+        .patch(`/api/v1/orders/${order.id}/status`)
         .set('Authorization', `Bearer ${token}`)
         .send({ status: 'in_production' })
         .expect(400);
@@ -238,7 +238,7 @@ describe('/api/v1/pedidos', () => {
 
       // Act
       const response = await request(app)
-        .patch(`/api/v1/pedidos/${order.id}/status`)
+        .patch(`/api/v1/orders/${order.id}/status`)
         .set('Authorization', `Bearer ${token}`)
         .send({ status: 'pending' })
         .expect(400);
@@ -249,7 +249,7 @@ describe('/api/v1/pedidos', () => {
 
     it('returns 404 when order does not exist', async () => {
       const response = await request(app)
-        .patch('/api/v1/pedidos/00000000-0000-0000-0000-000000000000/status')
+        .patch('/api/v1/orders/00000000-0000-0000-0000-000000000000/status')
         .set('Authorization', `Bearer ${token}`)
         .send({ status: 'in_production' })
         .expect(404);
@@ -258,7 +258,7 @@ describe('/api/v1/pedidos', () => {
     });
   });
 
-  // ─── DELETE /api/v1/pedidos/:id ───────────────────────────────────
+  // ─── DELETE /api/v1/orders/:id ───────────────────────────────────
   describe('DELETE /:id', () => {
     it('returns 204 and removes order from database', async () => {
       // Arrange
@@ -267,7 +267,7 @@ describe('/api/v1/pedidos', () => {
 
       // Act
       await request(app)
-        .delete(`/api/v1/pedidos/${order.id}`)
+        .delete(`/api/v1/orders/${order.id}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(204);
 
@@ -280,7 +280,7 @@ describe('/api/v1/pedidos', () => {
 
     it('returns 404 when order does not exist', async () => {
       const response = await request(app)
-        .delete('/api/v1/pedidos/00000000-0000-0000-0000-000000000000')
+        .delete('/api/v1/orders/00000000-0000-0000-0000-000000000000')
         .set('Authorization', `Bearer ${token}`)
         .expect(404);
 

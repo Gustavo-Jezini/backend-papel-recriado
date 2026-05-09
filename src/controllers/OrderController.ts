@@ -8,7 +8,7 @@ import type {
   UpdateOrderStatusBody,
   ListOrdersQuery,
   OrderIdParams,
-} from '../models/pedidos.js';
+} from '../models/orders.js';
 import type { OrderStatus } from '../entities/Order.js';
 
 const orderService = new OrderService(OrderRepository, ClientRepository);
